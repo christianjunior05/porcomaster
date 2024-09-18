@@ -3,14 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="output.css">
-
+    <title>Page d'accueil</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Couleur personnalisée */
+        .bg-custom {
+            background-color: #ffde59;
+        }
+        .text-custom {
+            color: #ffde59;
+        }
+    </style>
 </head>
-<body>
-    <div class="flex">
-        <div class="bg-green-700 h-screen p-5 pt-8 w-72"></div>
-        <div class="p-7 text-2xl font-semibold">Page d'accueil</div>
+<body class="min-h-screen bg-gray-100">
+
+    <div class="flex flex-col lg:flex-row">
+        <!-- Sidebar -->
+        <div class="bg-green-700 h-20 lg:h-screen p-5 pt-8 w-full lg:w-72 text-white flex items-center lg:block">
+            <h2 class="text-xl font-bold">Sidebar</h2>
+        </div>
+
+        <!-- Contenu principal -->
+        <div class="p-7 w-full">
+            <h1 class="text-4xl font-bold mb-8 text-gray-800">Page d'accueil</h1>
+
+            <!-- Formulaire -->
+            <form id="promoForm" class="bg-white p-6 rounded-lg shadow-md space-y-4">
+                <div>
+                    <label for="name" class="block text-lg font-medium text-gray-700">Nom:</label>
+                    <input type="text" id="name" name="name" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-custom focus:border-custom p-2">
+                </div>
+
+                <div>
+                    <label for="phone" class="block text-lg font-medium text-gray-700">Numéro de téléphone:</label>
+                    <input type="tel" id="phone" name="phone" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-custom focus:border-custom p-2">
+                </div>
+
+                <div>
+                    <label for="promoCode" class="block text-lg font-medium text-gray-700">Code promo:</label>
+                    <input type="text" id="promoCode" name="promoCode" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-custom focus:border-custom p-2">
+                </div>
+
+                <button type="submit" class="w-full bg-custom text-gray-800 font-bold py-2 px-4 rounded-md shadow hover:bg-yellow-400">
+                    Soumettre
+                </button>
+            </form>
+
+            <!-- Tableau des résultats -->
+            <div class="overflow-x-auto mt-10">
+                <table id="promoTable" class="min-w-full bg-white rounded-lg shadow-md">
+                    <thead class="bg-custom text-gray-800">
+                        <tr>
+                            <th class="py-3 px-6 text-left">Nom</th>
+                            <th class="py-3 px-6 text-left">Numéro de téléphone</th>
+                            <th class="py-3 px-6 text-left">Code promo</th>
+                            <th class="py-3 px-6 text-left">Nombre de fois utilisé</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-700">
+                        <!-- Données test pour voir la structure du tableau -->
+                        <tr class="border-t">
+                            <td class="py-3 px-6">Jean Dupont</td>
+                            <td class="py-3 px-6">+22512345678</td>
+                            <td class="py-3 px-6">PROMO2024</td>
+                            <td class="py-3 px-6">3</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+
+    <script>
+        // Ajout dynamique des infos du formulaire dans le tableau
+        document.getElementById("promoForm").addEventListener("submit", function(event){
+            event.preventDefault();
+
+            // Récupérer les valeurs du formulaire
+            var name = document.getElementById("name").value;
+            var phone = document.getElementById("phone").value;
+            var promoCode = document.getElementById("promoCode").value;
+
+            // Simuler le nombre de fois où le code promo a été utilisé
+            var timesUsed = Math.floor(Math.random() * 10) + 1;
+
+            // Ajouter une nouvelle ligne dans le tableau
+            var table = document.getElementById("promoTable").getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow();
+
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+            var cell4 = newRow.insertCell(3);
+
+            cell1.innerHTML = name;
+            cell2.innerHTML = phone;
+            cell3.innerHTML = promoCode;
+            cell4.innerHTML = timesUsed;
+
+            // Réinitialiser le formulaire après soumission
+            document.getElementById("promoForm").reset();
+        });
+    </script>
+
 </body>
 </html>
