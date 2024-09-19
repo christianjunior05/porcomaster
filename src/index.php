@@ -46,11 +46,6 @@
                     <input type="tel" id="phone" name="phone" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-custom focus:border-custom p-2">
                 </div>
 
-                <div>
-                    <label for="promoCode" class="block text-lg font-medium text-gray-700">Code promo:</label>
-                    <input type="text" id="promoCode" name="promoCode" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-custom focus:border-custom p-2">
-                </div>
-
                 <button type="submit" class="w-full bg-custom text-gray-800 font-bold py-2 px-4 rounded-md shadow hover:bg-yellow-400">
                     Soumettre
                 </button>
@@ -176,6 +171,8 @@
                 responsive: true,
 
             });
+
+            // Soumission et génération du code promo
 
            
 

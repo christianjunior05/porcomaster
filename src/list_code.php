@@ -14,7 +14,7 @@ if (isset($_POST) && !empty($_POST)) {
 
 extract($_POST);
 
-// requête pour recordsTotal (san filtre de recherche)
+// requête pour recordsTotal (sans filtre de recherche)
 $reqToal = "SELECT COUNT(*) AS total FROM promotions";
 
 $statementTotal = $pdo->prepare($reqToal);
