@@ -1,32 +1,23 @@
 <?php
 require_once "app/req/connect.php";  // Connexion à la base de données
 
-if (isset($_POST['search_name']) && !empty($_POST['search_name'])) {
-    $searchName = htmlspecialchars($_POST['search_name']);
+if (isset($_POST['search']) && !empty($_POST['search'])) {
+    $search = htmlspecialchars($_POST['search']);
 
     // Requête SQL pour rechercher un nom avec un code promo
-    $query = "SELECT nom, code_promo, nombre_fois_utilise FROM promotions WHERE nom LIKE :searchName LIMIT 1";
+    $query = "SELECT id, nom, code_promo, nombre_fois_utilise FROM promotions WHERE nom LIKE :search OR code_promo LIKE :search";
     $statement = $pdo->prepare($query);
-    $statement->bindValue(':searchName', "%$searchName%", PDO::PARAM_STR);
+    $statement->bindValue(':search', "%$search%", PDO::PARAM_STR);
     $statement->execute();
 
-    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-    if ($result) {
-        // Si un résultat est trouvé, retourner les informations via AJAX
-        echo json_encode([
-            'success' => true,
-            'nom' => $result['nom'],
-            'code_promo' => $result['code_promo'],
-            'usage_count' => $result['nombre_fois_utilise']
-        ]);
+    if ($results) {
+      echo json_encode($results);  // Renvoyer un tableau JSON valide
     } else {
-        // Si aucun résultat n'est trouvé
-        echo json_encode([
-            'success' => false,
-            'message' => 'Aucun résultat trouvé pour ce nom.'
-        ]);
+        echo json_encode([]);  // Renvoyer un tableau vide si aucun résultat
     }
+
 } else {
     // Si le champ de recherche est vide
     echo json_encode([
