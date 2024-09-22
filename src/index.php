@@ -6,13 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page d'accueil </title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!--===============================================================================================-->
     <!-- BOOTSTRAP CSS -->
+    <!--===============================================================================================-->
     <link id="style" href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <!-- DATATABLE CSS -->
     <!--===============================================================================================-->
     <link rel="stylesheet" href="DataTables-1.10.20/css/dataTables.bootstrap4.min.css">
     <!--===============================================================================================-->
     <link rel="stylesheet" href="DataTables-1.10.20/css/responsive.dataTables.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="mon.css">
     <style>
     /* Couleur personnalisée */
     .bg-custom {
@@ -35,27 +39,76 @@
 
         <!-- Contenu principal -->
         <div class="p-7 w-full">
-            <h1 class="text-4xl font-bold mb-8 text-gray-800">Page d'accueil</h1>
+            <div class="container">
+                <div class="row">
+                    <!-- Premier formulaire : Générer un code promo -->
+                    <div class="col-md-6">
+                        <form id="promoForm" class="bg-light p-4 rounded-lg shadow-sm">
+                            <h2 class="text-primary mb-4">Générer un Code Promo</h2>
 
-            <!-- Formulaire -->
-            <form id="promoForm" class="bg-white p-6 rounded-lg shadow-md space-y-4">
-                <div>
-                    <label for="name" class="block text-lg font-medium text-gray-700">Nom:</label>
-                    <input type="text" id="name" name="name" required
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-custom focus:border-custom p-2">
+                            <div class="form-group">
+                                <label for="name" class="form-label font-weight-bold">Nom :</label>
+                                <input type="text" id="name" name="name" required class="form-control"
+                                    placeholder="Entrez le nom">
+                            </div>
+
+                            <div class="form-group mt-3">
+                                <label for="phone" class="form-label font-weight-bold">Numéro de téléphone :</label>
+                                <input type="tel" id="phone" name="phone" required class="form-control"
+                                    placeholder="Entrez le numéro">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block mt-4">Soumettre</button>
+
+                            <!-- Zone d'affichage du succès ou des erreurs -->
+                            <div id="message" class="mt-4"></div>
+                        </form>
+                    </div>
+
+                    <!-- Deuxième formulaire : Recherche et mise à jour des codes promo -->
+                    <div class="col-md-6">
+                        <!-- Formulaire de recherche et de mise à jour -->
+                        <form id="searchUpdateForm" class="bg-white p-6 rounded-lg shadow-md space-y-4">
+                            <!-- Champ de recherche -->
+                            <div>
+                                <label for="searchName" class="block text-lg font-medium text-gray-700">Rechercher un
+                                    nom:</label>
+                                <input type="text" id="search" name="search" required
+                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-custom focus:border-custom p-2">
+                                <div id="searchResults"
+                                    class="col-md-6 bg-white border border-gray-300 rounded-md shadow-md mt-1 absolute w-full hidden">
+                                </div>
+                            </div>
+
+                            <!-- Zone pour afficher les résultats -->
+                            <div id="resultMessage" class="mt-4 text-lg font-medium"></div>
+
+                            <div class="mt-4">
+                                <label for="codePromo" class="block text-lg font-medium text-gray-700">Code
+                                    Promo:</label>
+                                <input type="text" id="codePromo" name="code_promo"
+                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" disabled>
+
+                                <label for="usageCount" class="block text-lg font-medium text-gray-700 mt-4">Nombre
+                                    d'utilisations:</label>
+                                <input type="text" id="usageCount" name="usage_count"
+                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" disabled>
+                            </div>
+
+                            <!-- Bouton pour augmenter le nombre d'utilisations -->
+                            <button id="updateUsage"
+                                class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md shadow hover:bg-blue-600">
+                                Augmenter le nombre d'utilisations
+                            </button>
+                        </form>
+
+                    </div>
                 </div>
+            </div>
 
-                <div>
-                    <label for="phone" class="block text-lg font-medium text-gray-700">Numéro de téléphone:</label>
-                    <input type="tel" id="phone" name="phone" required
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-custom focus:border-custom p-2">
-                </div>
 
-                <button type="submit"
-                    class="w-full bg-custom text-gray-800 font-bold py-2 px-4 rounded-md shadow hover:bg-yellow-400">
-                    Soumettre
-                </button>
-            </form>
+
+
 
             <!-- Tableau des résultats -->
             <div class="overflow-x-auto mt-10">
@@ -76,16 +129,26 @@
                 </div>
 
             </div>
+
         </div>
+
     </div>
     <!-- JQUERY JS -->
     <script src="jquery.min.js"></script>
+    <!--===============================================================================================-->
+    <!-- BOOTSTRAP JS -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
     <!-- Table JS -->
     <script src="DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
     <!--===============================================================================================-->
     <script src="DataTables-1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <!--===============================================================================================-->
     <script src="DataTables-1.10.20/js/dataTables.responsive.min.js"></script>
+    <!--===============================================================================================-->
+    <!-- SWEETALERT JS -->
+    <script src="sweetalert/sweetalert2.js"></script>
+
     <script>
     $(document).ready(function() {
 
@@ -97,8 +160,8 @@
             "processing": true,
             "serverSide": true,
             "pagingType": "full_numbers",
-            // "order": [],
-            // "oderMulti":true,
+            "order": [],
+            "oderMulti": true,
             "info": true,
             /*DT_RowId: 'Id',*/
             "ajax": {
@@ -140,7 +203,7 @@
                 "info": "De _START_ à _END_ sur _TOTAL_ ",
                 "infoEmpty": "Afficher 0 ligne sur un total de 0.",
                 "infoFiltered": "(Filtré sur un total de _MAX_ ligne)",
-                "infoPostFix": "(Trajets)",
+                "infoPostFix": "(Code)",
                 "lengthMenu": "Afficher _MENU_ activations",
                 "loadingRecords": "Chargement...",
                 "processing": "En cours...",
@@ -182,11 +245,214 @@
         });
 
         // Soumission et génération du code promo
+        $('#promoForm').submit(function(event) {
+            event.preventDefault(); // Empêche la soumission traditionnelle du formulaire
+
+            // Récupérer les valeurs du formulaire
+            var name = $('#name').val();
+            var phone = $('#phone').val();
+
+            // Générer un code promo alphanumérique de 7 caractères
+            var codePromo = Math.random().toString(36).substring(2, 9).toUpperCase();
+
+            // Envoyer les données par Ajax
+            $.ajax({
+                url: 'ajout_code.php', // Fichier PHP pour traiter la requête
+                method: 'POST',
+                data: {
+                    name: name,
+                    phone: phone,
+                    code_promo: codePromo
+                },
+                success: function(response) {
+                    Swal.fire({
+                        title: 'Succès',
+                        text: 'Code promo généré : ' + codePromo,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                    // Optionnel : Réinitialiser le formulaire
+                    $('#promoForm')[0].reset();
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: 'Erreur',
+                        text: 'Erreur : ' + error,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
+        });
+
+        // Fonction pour ajuster la largeur et la position de #searchResults à celle de l'input #search
+        function adjustResultsWidth() {
+            var input = $('#search');
+            var inputOffset = input.offset(); // Récupère la position de l'input
+            var inputWidth = input.outerWidth(); // Récupère la largeur de l'input
+
+            $('#searchResults').css({
+                'width': inputWidth + 'px', // Ajuste la largeur
+                'top': inputOffset.top + input.outerHeight() + 'px', // Positionne sous l'input
+                'left': inputOffset.left + 'px' // Aligne horizontalement
+            });
+        }
+
+        // Ajuste la largeur et la position au chargement de la page
+        adjustResultsWidth();
+
+        // Réajuste la largeur et la position à chaque fois que la taille de la fenêtre change
+        $(window).resize(function() {
+            adjustResultsWidth();
+        });
+
+        // Recherche en AJAX des personnes avec un code promo
+        $('#search').on('input', function() {
+            var search = $(this).val();
+
+            if (search.length > 0) {
+                $.ajax({
+                    url: 'recherche_code.php',
+                    method: 'POST',
+                    data: {
+                        search: search
+                    },
+                    success: function(response) {
+                        try {
+                            response = JSON.parse(response);
+                        } catch (e) {
+                            Swal.fire({
+                                title: 'Erreur',
+                                text: 'Erreur de format de la réponse',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                            return;
+                        }
+
+                        $('#searchResults').empty().removeClass('hidden');
+
+                        if (Array.isArray(response) && response.length > 0) {
+                            response.forEach(function(item) {
+                                // Utiliser l'ID pour distinguer chaque résultat unique
+                                $('#searchResults').append(
+                                    '<div class="p-2 hover:bg-gray-100 cursor-pointer" data-id="' +
+                                    item.id + '" data-nom="' + item.nom +
+                                    '" data-code="' + item.code_promo +
+                                    '" data-usage="' + item
+                                    .nombre_fois_utilise + '">' + item.nom +
+                                    ' (' + item.code_promo + ') utilisé ' + item
+                                    .nombre_fois_utilise + ' fois</div>');
+                            });
+                        } else {
+                            $('#searchResults').append('<div>Aucun résultat trouvé.</div>');
+                        }
+
+                        adjustResultsWidth
+                    (); // Réajuste au cas où l'input change de taille après les résultats
+
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            title: 'Erreur',
+                            text: 'Erreur : ' + error,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            } else {
+                $('#searchResults').addClass('hidden'); // Cache la div si la recherche est vide
+            }
+        });
+
+        // Gérer la sélection d'un résultat de recherche
+        $('#searchResults').on('click', 'div', function() {
+            var selectedName = $(this).data('nom');
+            var selectedCode = $(this).data('code');
+            var usageCount = $(this).data('usage');
 
 
+            $('#search').val(selectedName.split(' (')[0]); // Remplit l'input de recherche avec le nom
+            $('#codePromo').val(selectedCode); // Remplit le champ code promo
+            $('#usageCount').val(usageCount); // Remplit le champ usage count
+
+            // Mettre à jour le message et afficher le bouton d'augmentation d'utilisation
+            $('#updateMessage').html('Nom: ' + selectedName + ', Code Promo: ' + selectedCode +
+                ', Utilisations: ' + usageCount);
+            $('#increaseUsage').removeClass('hidden').data('code_promo', selectedCode);
+
+            // Masquer les résultats de la recherche
+            $('#searchResults').addClass('hidden');
+        });
+
+
+        // Augmenter le nombre d'utilisations
+        $('#updateUsage').click(function(event) {
+            event.preventDefault(); // Empêche le comportement par défaut du bouton
+
+            var codePromo = $('#codePromo').val(); // Récupérer le code promo
+            var usageCount = $('#usageCount').val(); // Récupérer le nombre d'utilisations
+
+            // Assurez-vous que le code promo n'est pas vide
+            if (codePromo !== "") {
+                $.ajax({
+                    url: 'usage.php', // Fichier PHP pour traiter la mise à jour
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        code_promo: codePromo,
+                        usage_count: usageCount
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                title: 'Succès',
+                                text: 'Nombre d\'utilisations augmenté avec succès.',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            });
+                            // Optionnel : Réinitialiser le formulaire
+                            $('#searchUpdateForm')[0].reset();
+
+                        } else if (response == "sup") {
+                            Swal.fire({
+                                title: 'Erreur',
+                                text: 'Nombre d\'utilisation depasser pour ce code promo',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+
+                        } else {
+                            Swal.fire({
+                                title: 'Erreur',
+                                text: 'Erreur lors de la mise à jour.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    },
+
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            title: 'Erreur',
+                            text: 'Erreur : ' + error,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: 'Erreur',
+                    text: 'Veuillez d\'abord recherche un code promo',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
 
     });
-    // Ajout dynamique des infos du formulaire dans le tableau
     </script>
 
 </body>

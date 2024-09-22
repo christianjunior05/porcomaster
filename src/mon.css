@@ -1,0 +1,24 @@
+/* 
+#searchResults {
+    position: absolute;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+} */
+#searchResults {
+    width: 100%; /* Même largeur que l'input */
+    border: 1px solid #000000; /* Ajoute une bordure pour mieux distinguer */
+    background-color: white; /* Fond blanc */
+    position: absolute; /* Pour que la div soit juste en dessous de l'input */
+    z-index: 100; /* Pour s'assurer que la div est au-dessus des autres éléments */
+    max-height: 200px; /* Limite la hauteur pour éviter une trop grande liste */
+    overflow-y: auto; /* Ajoute un scroll si la liste est trop longue */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Pour un effet de profondeur */
+}
+#searchResults div {
+    padding: 8px;
+    cursor: pointer;
+}
+#searchResults div:hover {
+    background-color: #f1f1f1;
+}
