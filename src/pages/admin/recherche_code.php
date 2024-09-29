@@ -1,11 +1,14 @@
 <?php
-require_once "app/req/connect.php";  // Connexion à la base de données
+require_once "../../app/inc/connect.php";  // Connexion à la base de données
 
 if (isset($_POST['search']) && !empty($_POST['search'])) {
     $search = htmlspecialchars($_POST['search']);
 
     // Requête SQL pour rechercher un nom avec un code promo
-    $query = "SELECT id, nom, code_promo, nombre_fois_utilise FROM promotions WHERE nom LIKE :search OR code_promo LIKE :search";
+    $query = "SELECT cp.id, u.nom, u.numero, cp.code, cp.nombre_utilisations
+    FROM utilisateurs u
+    JOIN codes_promo cp ON u.id = cp.utilisateur_id
+    WHERE cp.nombre_utilisations < 10 AND u.nom LIKE :search OR cp.code LIKE :search OR u.numero LIKE :search";
     $statement = $pdo->prepare($query);
     $statement->bindValue(':search', "%$search%", PDO::PARAM_STR);
     $statement->execute();

@@ -1,34 +1,37 @@
 <?php
 
-require_once "app/req/connect.php";
+require_once "../../app/inc/connect.php";
 
 if (isset($_POST) && !empty($_POST)) {
 
     extract($_POST);
 
     // requête pour recordsTotal (sans filtre de recherche)
-    $reqTotal = "SELECT COUNT(*) AS total FROM promotions";
+    $reqTotal = "SELECT COUNT(*) AS total FROM codes_promo";
     $statementTotal = $pdo->prepare($reqTotal);
     $statementTotal->execute([]);
     $totalRow = $statementTotal->fetch();
     $recordsTotal = $totalRow['total'];
 
     // Requête filtrée
-    $reqFiltred = "SELECT * FROM promotions ";
+    $reqFiltred = "SELECT cp.code, cp.date_creation, cp.nombre_utilisations, f.nom
+    FROM codes_promo cp
+    JOIN formules_partage f
+    ON f.id = cp.formules_partage_id ";
 
     if (isset($_POST["search"]["value"]) && !empty($_POST["search"]["value"])) {
         $searchValue = $_POST["search"]["value"];
-        $reqFiltred .= 'WHERE nom LIKE "%' . $searchValue . '%" ';
-        $reqFiltred .= 'OR numero_telephone LIKE "%' . $searchValue . '%" ';
-        $reqFiltred .= 'OR code_promo LIKE "%' . $searchValue . '%" ';
+        $reqFiltred .= 'WHERE cp.code LIKE "%' . $searchValue . '%" ';
+        $reqFiltred .= 'OR cp.nombre_utilisations LIKE "%' . $searchValue . '%" ';
+        $reqFiltred .= 'OR f.nom LIKE "%' . $searchValue . '%" ';
     }
 
     // Mapping des colonnes pour le tri
     $columns = [
-        0 => 'nom',
-        1 => 'numero_telephone',
-        2 => 'code_promo',
-        3 => 'nombre_fois_utilise'
+        0 => 'code',
+        1 => 'nom',
+        2 => 'date_creation',
+        3 => 'nombre_utilisations'
     ];
 
     if (isset($_POST["order"]) && !empty($_POST["order"])) {
@@ -37,7 +40,7 @@ if (isset($_POST) && !empty($_POST)) {
         $orderByColumn = $columns[$columnIndex]; // Récupérer le nom de la colonne à trier
         $reqFiltred .= "ORDER BY " . $orderByColumn . " " . $columnSortOrder . " ";
     } else {
-        $reqFiltred .= "ORDER BY id DESC "; // Par défaut, trier par ID
+        $reqFiltred .= "ORDER BY cp.date_creation DESC "; // Par défaut, trier par date de création
     }
 
     if ($_POST["length"] != -1) {
@@ -54,10 +57,10 @@ if (isset($_POST) && !empty($_POST)) {
     // Préparation des données à envoyer au DataTable
     foreach ($result as $row) {
         $sub_array = array();
-        $sub_array[] = wordwrap($row["nom"], 15, '<br/>', true);
-        $sub_array[] = $row['numero_telephone'];
-        $sub_array[] = $row['code_promo'];
-        $sub_array[] = $row['nombre_fois_utilise'];
+        $sub_array[] = wordwrap($row["code"], 15, '<br/>', true);
+        $sub_array[] = $row['nom'];
+        $sub_array[] = $row['date_creation'];
+        $sub_array[] = $row['nombre_utilisations'];
         $data[] = $sub_array;
     }
 
