@@ -37,7 +37,7 @@
         $requeteCodePromo = $pdo->prepare('INSERT INTO codes_promo (utilisateur_id, code) VALUES (?, ?)');
         $requeteCodePromo->execute([$nouvelUtilisateurId, $codePromo]);
 
-        echo json_encode("Compte cree avec succes. Code promo : $codePromo, Mot de passe : $motDePasse");
+        echo json_encode("Compte  cree avec succes. Code promo : $codePromo, Mot de passe : $motDePasse");
     }
 
   }
