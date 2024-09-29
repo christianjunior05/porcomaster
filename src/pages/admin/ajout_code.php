@@ -21,7 +21,7 @@
         $requeteCodePromo = $pdo->prepare('INSERT INTO codes_promo (utilisateur_id, code) VALUES (?, ?)');
         $requeteCodePromo->execute([$utilisateur['id'], $codePromo]);
 
-        echo "Nouveau code promo ajouté pour l'utilisateur : $codePromo";
+        echo json_encode("Nouveau code promo ajoute pour l'utilisateur : $codePromo");
 
       } else {
         // Utilisateur n'existe pas, créer le compte et ajouter un code promo
@@ -37,7 +37,7 @@
         $requeteCodePromo = $pdo->prepare('INSERT INTO codes_promo (utilisateur_id, code) VALUES (?, ?)');
         $requeteCodePromo->execute([$nouvelUtilisateurId, $codePromo]);
 
-        echo "Compte créé avec succès. Code promo : $codePromo, Mot de passe : $motDePasse";
+        echo json_encode("Compte cree avec succes. Code promo : $codePromo, Mot de passe : $motDePasse");
     }
 
   }

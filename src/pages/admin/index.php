@@ -266,7 +266,7 @@
                     success: function (response) {
                         Swal.fire({
                             title: 'Succès',
-                            text: 'Code promo généré : ' + codePromo,
+                            text: response,
                             icon: 'success',
                             confirmButtonText: 'OK'
                         });
