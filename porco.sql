@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : dim. 29 sep. 2024 à 17:11
+-- Généré le : lun. 07 oct. 2024 à 22:55
 -- Version du serveur : 10.11.6-MariaDB-0+deb12u1
 -- Version de PHP : 8.2.20
 
@@ -20,6 +20,32 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `porco`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `admins`
+--
+
+CREATE TABLE `admins` (
+  `id` int(11) NOT NULL,
+  `nom` varchar(255) DEFAULT NULL,
+  `numero` varchar(255) DEFAULT NULL,
+  `mot_de_passe` varchar(255) DEFAULT NULL,
+  `remember_token` varchar(255) DEFAULT NULL,
+  `date_creation` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `admins`
+--
+
+INSERT INTO `admins` (`id`, `nom`, `numero`, `mot_de_passe`, `remember_token`, `date_creation`) VALUES
+(1, 'akkoula', '1234567890', '$2y$10$KXrqMI0KsmtaI0uS/q0iFeSHS9tyGAKMOkRaFPX..QyWIISBcfGVW', NULL, '2024-10-02 13:00:39'),
+(2, 'akoula2', '123456789', '$2y$10$KXrqMI0KsmtaI0uS/q0iFeSHS9tyGAKMOkRaFPX..QyWIISBcfGVW', NULL, '2024-10-02 13:00:39'),
+(3, 'akk', '1234567899', '$2y$10$KXrqMI0KsmtaI0uS/q0iFeSHS9tyGAKMOkRaFPX..QyWIISBcfGVW', NULL, '2024-10-02 13:00:39'),
+(4, 'didi b', '987654321', '$2y$10$KXrqMI0KsmtaI0uS/q0iFeSHS9tyGAKMOkRaFPX..QyWIISBcfGVW', NULL, '2024-10-02 13:00:39'),
+(6, 'sen', '1111', '$2y$10$9Ope6yB1SZAbxhPNsomvweDf2/EE5COvPdB5L6/2kiFUZ1VDTbw/O', NULL, '2024-10-02 13:00:39');
 
 -- --------------------------------------------------------
 
@@ -46,7 +72,8 @@ INSERT INTO `codes_promo` (`id`, `utilisateur_id`, `code`, `formules_partage_id`
 (3, 3, 'ESJ4DT', 4, 2, '2024-09-28 18:25:59'),
 (4, 3, 'E2HGSF', 6, 1, '2024-09-28 18:28:52'),
 (5, 1, '6QD6UR', NULL, 0, '2024-09-29 17:05:17'),
-(6, 4, 'F29L9C', NULL, 0, '2024-09-29 17:07:20');
+(6, 4, 'F29L9C', NULL, 0, '2024-09-29 17:07:20'),
+(8, 6, 'CV9PP2', 4, 0, '2024-10-02 10:51:09');
 
 -- --------------------------------------------------------
 
@@ -83,22 +110,32 @@ CREATE TABLE `utilisateurs` (
   `id` int(11) NOT NULL,
   `nom` varchar(255) DEFAULT NULL,
   `numero` varchar(255) DEFAULT NULL,
-  `mot_de_passe` varchar(255) DEFAULT NULL
+  `mot_de_passe` varchar(255) DEFAULT NULL,
+  `remember_token` varchar(255) DEFAULT NULL,
+  `date_creation` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `utilisateurs`
 --
 
-INSERT INTO `utilisateurs` (`id`, `nom`, `numero`, `mot_de_passe`) VALUES
-(1, 'akkoula', '1234567890', '$2y$10$PO3K0NnuoHmmUXPHI53jY./EgAu7ADNPLnEcvlaH./5wrfR0a32xa'),
-(2, 'akoula2', '123456789', '$2y$10$PO3K0NnuoHmmUXPHI53jY./EgAu7ADNPLnEcvlaH./5wrfR0a32xa'),
-(3, 'akk', '1234567899', '$2y$10$PO3K0NnuoHmmUXPHI53jY./EgAu7ADNPLnEcvlaH./5wrfR0a32xa'),
-(4, 'didi b', '987654321', '$2y$10$Q14GXX7c1UBYoUjQPoC9wOZ5yyFF0LyafcO9quq0qcaEf3QNisNUq');
+INSERT INTO `utilisateurs` (`id`, `nom`, `numero`, `mot_de_passe`, `remember_token`, `date_creation`) VALUES
+(1, 'akkoula', '1234567890', '$2y$10$KXrqMI0KsmtaI0uS/q0iFeSHS9tyGAKMOkRaFPX..QyWIISBcfGVW', NULL, '2024-10-02 13:00:39'),
+(2, 'akoula2', '123456789', '$2y$10$KXrqMI0KsmtaI0uS/q0iFeSHS9tyGAKMOkRaFPX..QyWIISBcfGVW', NULL, '2024-10-02 13:00:39'),
+(3, 'akk', '1234567899', '$2y$10$KXrqMI0KsmtaI0uS/q0iFeSHS9tyGAKMOkRaFPX..QyWIISBcfGVW', NULL, '2024-10-02 13:00:39'),
+(4, 'didi b', '987654321', '$2y$10$KXrqMI0KsmtaI0uS/q0iFeSHS9tyGAKMOkRaFPX..QyWIISBcfGVW', NULL, '2024-10-02 13:00:39'),
+(6, 'sen', '4444', '$2y$10$9Ope6yB1SZAbxhPNsomvweDf2/EE5COvPdB5L6/2kiFUZ1VDTbw/O', NULL, '2024-10-02 13:00:39');
 
 --
 -- Index pour les tables déchargées
 --
+
+--
+-- Index pour la table `admins`
+--
+ALTER TABLE `admins`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `numero` (`numero`) USING BTREE;
 
 --
 -- Index pour la table `codes_promo`
@@ -127,10 +164,16 @@ ALTER TABLE `utilisateurs`
 --
 
 --
+-- AUTO_INCREMENT pour la table `admins`
+--
+ALTER TABLE `admins`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT pour la table `codes_promo`
 --
 ALTER TABLE `codes_promo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pour la table `formules_partage`
@@ -142,7 +185,7 @@ ALTER TABLE `formules_partage`
 -- AUTO_INCREMENT pour la table `utilisateurs`
 --
 ALTER TABLE `utilisateurs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Contraintes pour les tables déchargées
