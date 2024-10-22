@@ -74,11 +74,34 @@
             // Préparation des données à envoyer au DataTable
             foreach ($result as $row) {
                 $sub_array = array();
+
+                if ($row['formule'] == NULL) {
+
+                    $formule = '<p class="text-sm font-weight-bold mb-0">
+                        <span class="badge badge-sm bg-gradient-secondary">Non définit</span></p>';
+
+                } else {
+                    
+                    $formule = '<p class="text-sm font-weight-bold mb-0">
+                        <span class="badge badge-sm bg-gradient-warning">'.$row['formule'].'</span></p>';
+
+                }
                 $sub_array[] = wordwrap($row["nom"], 15, '<br/>', true);
                 $sub_array[] = $row['numero'];
-                $sub_array[] = $row['code'];
-                $sub_array[] = $row['formule'];
-                $sub_array[] = $row['nombre_utilisations'];
+                $sub_array[] = '<div class="d-flex px-2">
+                                        <div class="my-auto">
+                                            <h6 class="mb-0 text-sm">'.$row["code"].'</h6>
+                                        </div>
+                                    </div>';
+                $sub_array[] = $formule;
+                $sub_array[] = '<div class="d-flex align-items-center justify-content-center">
+                                        <span class="me-2 text-xs font-weight-bold">'.$row['nombre_utilisations'].'0%</span>
+                                        <div>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="'.$row['nombre_utilisations'].'0" aria-valuemin="0" aria-valuemax="100" style="width: '.$row['nombre_utilisations'].'0%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>';
                 $data[] = $sub_array;
             }
 

@@ -33,7 +33,7 @@
             $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
             if ($results) {
-            echo json_encode($results);  // Renvoyer un tableau JSON valide
+                echo json_encode($results);  // Renvoyer un tableau JSON valide
             } else {
                 echo json_encode([]);  // Renvoyer un tableau vide si aucun résultat
             }

@@ -99,7 +99,11 @@
 
       $nom = $posted['nom'];
 
+      $type = $posted['type_user'];
+
       $_SESSION["auth"] = $num;
+
+      $_SESSION["type"] = $type;
       
       // $rememberToken = bin2hex(random_bytes(32));
       
@@ -116,11 +120,11 @@
 
       
       // Vérifier si l'utilisateur provient de la table 'admins' ou 'utilisateurs'
-      if ($posted['type_user'] == 'admin') {
+      if ($type == 'admin') {
 
         echo "admin/index.php?id=".$id;
 
-      } elseif ($posted['type_user'] == 'utilisateur') {
+      } elseif ($type == 'utilisateur') {
 
         echo "users/index.php?id=".$id;
       }

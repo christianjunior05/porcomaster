@@ -151,7 +151,7 @@
                                 <div class="form-group">
                                     <label for="searchName" class="block text-lg font-medium text-gray-700">Rechercher :</label>
                                     <input type="text" id="search" name="search" placeholder="nom/code/num" required class="form-control">
-                                    <div id="searchResults" class="col-md-6 bg-white border border-gray-300 rounded-md shadow-md mt-1 absolute w-full hidden"></div>
+                                    <div id="searchResults" style="display:none;"></div>
                                 </div>
 
                                 <!-- Zone pour afficher les résultats -->
@@ -184,14 +184,14 @@
             <div class="overflow-x-auto my-4">
 
                 <div class="table-responsive">
-                    <table  id="promoTable" class="table  border text-nowrap text-md-nowrap recent-files-container min-w-full bg-white rounded-lg shadow-md">
-                    <thead class="bg-custom text-gray-800">
+                    <table  id="promoTable" class="table align-items-center justify-content-center mb-0">
+                    <thead>
                         <tr class="row-first">
-                        <th>Nom</th>
-                        <th>Téléphone</th>
-                        <th>Code Promo</th>
-                        <th>Formule</th>
-                        <th>Utilisé</th>
+                        <th class="text-uppercase text-xxs font-weight-bolder opacity-7 text-white opacity-8">Nom</th>
+                        <th class="text-uppercase text-xxs font-weight-bolder opacity-7 text-white opacity-8">Téléphone</th>
+                        <th class="text-uppercase text-xxs font-weight-bolder opacity-7 text-white opacity-8">Code Promo</th>
+                        <th class="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2 text-white opacity-8">Formule</th>
+                        <th class="text-uppercase text-xxs font-weight-bolder text-center opacity-7 ps-2 text-white opacity-8">Utilisé</th>
                         </tr>
                     </thead>
                     <!-- les options seront ici -->
@@ -374,8 +374,8 @@
 
                 $('#searchResults').css({
                     'width': inputWidth + 'px',  // Ajuste la largeur
-                    'top': inputOffset.top + input.outerHeight() + 'px',  // Positionne sous l'input
-                    'left': inputOffset.left + 'px'  // Aligne horizontalement
+                    // 'top': inputOffset.top + input.outerHeight() + 'px',  // Positionne sous l'input
+                    // 'left': inputOffset.left + 'px'  // Aligne horizontalement
                 });
             }
 
@@ -411,12 +411,12 @@
                                 return;
                             }
 
-                            $('#searchResults').empty().removeClass('hidden');
+                            $('#searchResults').show();
 
                             if (Array.isArray(response) && response.length > 0) {
                                 response.forEach(function(item) {
                                     // Utiliser l'ID pour distinguer chaque résultat unique
-                                    $('#searchResults').append('<div class="p-2 hover:bg-gray-100 cursor-pointer" data-id="' + item.id + '" data-nom="' + item.nom + '" data-code="' + item.code + '" data-usage="' + item.nombre_utilisations + '">' + item.nom + ' (' + item.code + ') utilisé ' + item.nombre_utilisations + ' fois</div>');
+                                    $('#searchResults').append('<div class="rounded bg-gradient-dark px-3 my-2 ms-2 mx-2" data-id="' + item.id + '" data-nom="' + item.nom + '" data-code="' + item.code + '" data-usage="' + item.nombre_utilisations + '">' + item.nom + ' (' + item.code + ') utilisé ' + item.nombre_utilisations + ' fois</div>');
                                 });
                             } else {
                                 $('#searchResults').append('<div>Aucun résultat trouvé.</div>');
@@ -435,7 +435,7 @@
                         }
                     });
                 } else {
-                    $('#searchResults').addClass('hidden'); // Cache la div si la recherche est vide
+                    $('#searchResults').hide(); // Cache la div si la recherche est vide
                 }
             });
 

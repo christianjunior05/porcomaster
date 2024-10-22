@@ -24,19 +24,25 @@
 
 	if(isset($_SESSION['auth'])){
 
-		$user = $_SESSION['auth'];
+		if (isset($_SESSION['type']) AND $_SESSION['type'] == 'utilisateur') {
 
-		$reqUser = $pdo->query("SELECT * FROM utilisateurs WHERE numero = $user");
+			$user = $_SESSION['auth'];
+	
+			$reqUser = $pdo->query("SELECT * FROM utilisateurs WHERE numero = $user");
+	
+			$userFetch = $reqUser->fetch();
+	
+			$userId = $userFetch['id'];
+	
+			////////////////////////////
+			// Récupération des infos //
+			////////////////////////////
+	
+			require('view/index.php');
 
-		$userFetch = $reqUser->fetch();
-
-		$userId = $userFetch['id'];
-
-		////////////////////////////
-		// Récupération des infos //
-		////////////////////////////
-
-		require('view/index.php');
+		}elseif (isset($_SESSION['type']) AND $_SESSION['type'] != 'utilisateur') {
+			echo $_SESSION['type'];
+		}
 
 	}elseif (!isset($_SESSION["auth"])){
 
